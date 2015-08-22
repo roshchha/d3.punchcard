@@ -7,22 +7,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.min.js"></script>
 		<link rel="stylesheet" href="Assests/style.css" />
-
     </head>
 	<body>
 		<div class="container">
 			<h1> Punchcard example</h1>
-			<div id="d3Graph" style="width:700px;margin-left:30px;">
+			<div id="d3Graph">
 			</div>
 		</div>
-		<!-- <script type="text/javascript" src="d3.punchcard.js"></script> -->
 		<script type="text/javascript" src="Assests/d3.tip.js"></script>
 		<script type="text/javascript" src="Assests/d3.punchcard.modified.js"></script>
 		<script type="text/javascript">
 		
 		
 		 d3.csv(
-          'data files/data1.csv',
+          'data files/data2.csv',
           // parsing function
           function (d) {
             return d3.entries(d);
@@ -61,6 +59,7 @@
           examplePunchcard = new D3punchcard({
             data: data,
             element: '#d3Graph',
+			originColor: '#3182bd',
 			//originHoverAction: 'tooltip',
 			tipText : 'Value is : {dataValue}',
 			originClick: function(x,y){alert("x: " + x+" y: " + y);},
