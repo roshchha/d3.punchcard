@@ -62,7 +62,10 @@
 			originColor: '#3182bd',
 			//originHoverAction: 'tooltip',
 			tipText : 'Value is : {dataValue}',
-			originClick: function(x,y){alert("x: " + x+" y: " + y);},
+			tooltipText : function(data){
+				return "value is: " + data.num_days ;
+				},
+			originClick: function(data){console.log(data)},
             upperLimit: upperLimit
           })
           .draw({ width: document.getElementById('d3Graph').offsetWidth });

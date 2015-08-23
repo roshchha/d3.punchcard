@@ -4,28 +4,32 @@
 
         function D3punchcard(options) {
 
+			var _this = this;
             // Reverse the data as we draw
             // from the bottom up.
             this.data = options.data.reverse();
             this.element = options.element;
+			this.rowHeaderLabel = options.rowHeaderLabel || "value"; // first object in each array of array is row header
+			this.colHeaderLabel = options.colHeaderLabel || "key"; //all other objects from second position in array of array are col headers and their values
+			this.cellValueLabel = options.cellValueLabel || "value";
             this.disableRowHeadersHover = options.disableRowHeadersHover || false;
             this.disableOriginHover = options.disableOriginHover || false;
             this.originHoverAction = options.originHoverAction;
-            this.tipText = options.tipText || '';
+			this.tooltipText = options.tooltipText;
             this.originClick = options.originClick;
 			this.originColor = options.originColor || '#000';
-
+			
+			
             // Find the max value to normalize the size of the circles.
             this.max = d3.max(this.data, function(array) {
 
                 // we ignore the first element as it is metadata
                 return d3.max(array.slice(1), function(obj) {
-
                     // and we only return the interger verion of the value, not the key
-                    return parseFloat(obj.value);
+                    return parseFloat(obj[_this.cellValueLabel]);
                 });
             });
-
+			
             // set the upperlimit if we have it
             // otherwise use the max
             if (options.upperLimit) {
@@ -92,7 +96,11 @@
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
                 .html(function(d) {
-                    return _this.tipText == "" ? "<strong>" + d.value + "</strong>" : _this.tipText.replace("{dataValue}", d.value);
+					if(_this.tooltipText){
+						return _this.tooltipText.call(null,d);
+					}
+					else
+						return "<strong>" + d[_this.cellValueLabel] + "</strong>";
                 })
 
             // The main SVG element.
@@ -163,7 +171,7 @@
             attr('y', margin + lineHeight).
             attr('text-anchor', 'middle').
             text(function(d) {
-                return d.key;
+                return d[_this.colHeaderLabel];
             });
 
             // create rows
@@ -172,9 +180,9 @@
                 .enter()
                 .append('g')
                 .attr('class', 'row')
-                .attr('dyIdx', function(d, i) {
-                    return (rowCount - i);
-                }) //becuase we have reversed the data while building the graph
+                .attr('rowIdx', function(d, i) {
+                    return i;
+                }) 
                 .attr('transform', function(d, i) {
                     var ty = height - y(i) - (sectionHeight / 2) + (margin * 3);
                     return 'translate(0, ' + ty + ')';
@@ -212,7 +220,7 @@
             attr('class', 'textheader').
             attr('text-anchor', 'left').
             text(function(d, i) {
-                    return d.value;
+                    return d[_this.rowHeaderLabel];
                 });
 			if(!this.disableRowHeadersHover){
 				textHeaders.on('mouseover', handleRowMouseover)
@@ -230,7 +238,7 @@
             append('circle').
             style('fill', this.originColor).
             attr('r', function(d, i) {
-                return rScale(parseFloat(d.value));
+                return rScale(parseFloat(d[_this.cellValueLabel]));
             }).
             attr('transform', function(d, i) {
                 var tx = paneLeft + x(i);
@@ -246,8 +254,8 @@
 
 				var dotLabelEnter = dotLabels.enter().append('g')
 					.attr('class', 'dot-label')
-					.attr('dxIdx', function(d, i) {
-						return i + 1;
+					.attr('colIdx', function(d, i) {
+						return i + 1;//+1 for row header labels
 					})
 					.style('cursor','pointer')
 					.on('mouseover', tip.show)
@@ -259,10 +267,10 @@
 					.style('opacity', 0)
 
 				if (this.originClick) {
-					dotLabelEnter.on('click', function() {
-						xIdx = d3.select(this).attr('dxIdx');
-						yIdx = d3.select(this.parentNode).attr('dyIdx');
-						_this.originClick.call(null, xIdx, yIdx);
+					dotLabelEnter.on('click', function(d) {
+						colIdx = d3.select(this).attr('colIdx');
+						rowIdx = d3.select(this.parentNode).attr('rowIdx'); 
+						_this.originClick.call(null, [_this.data[rowIdx][0],_this.data[rowIdx][colIdx]]);
 					});
 				}
 				dotLabels.exit().remove()
@@ -273,7 +281,7 @@
 					})
 					.select('text')
 					.text(function(d, i) {
-						return d.value
+						return d[_this.cellValueLabel]
 					})
 
 			}
@@ -288,7 +296,7 @@
             attr('class', 'value').
             style('display', 'none').
             text(function(d, i) {
-                return d.value;
+                return d[_this.cellValueLabel];
             }).
             attr('text-anchor', 'middle').
             attr('x', function(d, i) {
