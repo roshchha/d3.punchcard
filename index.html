@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
         <title>D3 Punchcard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -19,13 +19,13 @@
 		<script type="text/javascript" src="JS/d3.tip.js"></script>
 		<script type="text/javascript" src="JS/d3.punchcard.js"></script>
 		<script type="text/javascript">
-		
-		
+
+
 		var data = [
 					  [{ dow:'Sunday'}, { name:'A',  num_days:'3'}, { name:'B',  num_days:'445'},{ name:'C',  num_days:'544'},
 						{ name:'D',  num_days:'8183'}, { name:'E',  num_days:'756'},{ name:'F',  num_days:'477'},
 						{ name:'G',  num_days:'538'}, { name:'H',  num_days:'493'},{ name:'I',  num_days:'589'}
-					 ], 
+					 ],
 					 [{ dow:'Monday'}, { name:'A',  num_days:'10'}, { name:'B',  num_days:'734'},{ name:'C',  num_days:'1344'},
 						{ name:'D',  num_days:'4343'}, { name:'E',  num_days:'4444'},{ name:'F',  num_days:'2598'},
 						{ name:'G',  num_days:'2323'}, { name:'H',  num_days:'1678'},{ name:'I',  num_days:'1487'}
@@ -33,30 +33,30 @@
 					  [{ dow:'Tuesday'}, { name:'A',  num_days:'334'}, { name:'B',  num_days:'2193'},{ name:'C',  num_days:'2667'},
 						{ name:'D',  num_days:'5443'}, { name:'E',  num_days:'5444'},{ name:'F',  num_days:'3955'},
 						{ name:'G',  num_days:'5029'}, { name:'H',  num_days:'6198'},{ name:'I',  num_days:'4324'}
-					 ], 
+					 ],
 					  [{ dow:'Wednesday'}, { name:'A',  num_days:'230'}, { name:'B',  num_days:'2123'},{ name:'C',  num_days:'2067'},
 						{ name:'D',  num_days:'5043'}, { name:'E',  num_days:'4009'},{ name:'F',  num_days:'3500'},
 						{ name:'G',  num_days:'4500'}, { name:'H',  num_days:'6098'},{ name:'I',  num_days:'4000'}
-					 ], 
+					 ],
 					  [{ dow:'Thursday'}, { name:'A',  num_days:'120'}, { name:'B',  num_days:'2120'},{ name:'C',  num_days:'1900'},
 						{ name:'D',  num_days:'4043'}, { name:'E',  num_days:'4129'},{ name:'F',  num_days:'3300'},
 						{ name:'G',  num_days:'4300'}, { name:'H',  num_days:'6198'},{ name:'I',  num_days:'4340'}
-					 ], 
+					 ],
 					   [{ dow:'Friday'}, { name:'A',  num_days:'20'}, { name:'B',  num_days:'450'},{ name:'C',  num_days:'800'},
 						{ name:'D',  num_days:'6700'}, { name:'E',  num_days:'3400'},{ name:'F',  num_days:'700'},
 						{ name:'G',  num_days:'3400'}, { name:'H',  num_days:'4400'},{ name:'I',  num_days:'1100'}
-					 ], 
+					 ],
 					   [{ dow:'Saturday'}, { name:'A',  num_days:'140'}, { name:'B',  num_days:'1700'},{ name:'C',  num_days:'1890'},
 						{ name:'D',  num_days:'4043'}, { name:'E',  num_days:'4180'},{ name:'F',  num_days:'3043'},
 						{ name:'G',  num_days:'4122'}, { name:'H',  num_days:'6800'},{ name:'I',  num_days:'4700'}
-					 ], 
-					 
+					 ],
+
 				 ];
-		
+
 	   showGraph(data);
-		
+
 		function showGraph ( data ) {
-		
+
           var flatAscending,
           upperLimit,
           examplePunchcard;
@@ -71,7 +71,7 @@
 
           }).reduce(function(a, b) {
             return a.concat(b);
-			
+
           }).sort(function(a, b) {
             return a - b;
           } );
@@ -97,7 +97,7 @@
           })
           .draw({ width: document.getElementById('d3Graph').offsetWidth });
         }
-		
+
 		</script>
 	</body>
 
