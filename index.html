@@ -88,7 +88,12 @@
 			cellValueLabel: 'num_days',
 			//originHoverAction: 'tooltip',
 			tooltipText : function(data){
-				return "value is: " + data.num_days ;
+          if (data.num_days) {
+            return "value is: " + data.num_days;
+          }
+          if (data.dow) {
+            return data.dow;
+          }
 				},
 			originClick: function(data){
 				alert(data[0]['dow'] + " " + data[1]['name'] + " "+data[1]['num_days']);
@@ -100,7 +105,3 @@
 
 		</script>
 	</body>
-
-
-
-

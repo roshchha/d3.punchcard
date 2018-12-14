@@ -84,17 +84,13 @@
                        .range([0, circleRadius, circleRadius]);
 
             // these functions hide and show the circles and text values
-            function handleRowMouseover() {
-                var g = d3.select(this).node().parentNode;
-                d3.select(g).selectAll('circle').style('display', 'none');
-                d3.select(g).selectAll('text.value').style('display', 'block');
-            }
-
-            function handleRowMouseout() {
-                var g = d3.select(this).node().parentNode;
-                d3.select(g).selectAll('circle').style('display', 'block');
-                d3.select(g).selectAll('text.value').style('display', 'none');
-            }
+            // function handleRowMouseover() {
+            //
+            // }
+            //
+            // function handleRowMouseout() {
+            //
+            // }
 
             var tip = d3.tip()
                         .attr('class', 'd3-tip')
@@ -217,13 +213,24 @@
                                 })
                                 .attr('class', 'textheader')
                                 .attr('text-anchor', 'left')
+                                .style('cursor', 'pointer')
                                 .text(function(d, i) {
                                     return d[_this.rowHeaderLabel];
-                                });
+                                })
 
             if (!this.disableRowHeadersHover) {
-                textHeaders.on('mouseover', handleRowMouseover);
-                textHeaders.on('mouseout', handleRowMouseout);
+                textHeaders.on('mouseover', function(data){
+                  tip.show(data)
+                  var g = d3.select(this).node().parentNode;
+                  d3.select(g).selectAll('circle').style('display', 'none');
+                  d3.select(g).selectAll('text.value').style('display', 'block');
+                });
+                textHeaders.on('mouseout', function(){
+                  tip.hide()
+                  var g = d3.select(this).node().parentNode;
+                  d3.select(g).selectAll('circle').style('display', 'block');
+                  d3.select(g).selectAll('text.value').style('display', 'none');
+                });
             }
 
             // draw circles for each row
