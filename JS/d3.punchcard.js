@@ -220,7 +220,9 @@
 
             if (!this.disableRowHeadersHover) {
                 textHeaders.on('mouseover', function(data){
-                  tip.show(data)
+                  if (data) {
+                    tip.show(data)
+                  }
                   var g = d3.select(this).node().parentNode;
                   d3.select(g).selectAll('circle').style('display', 'none');
                   d3.select(g).selectAll('text.value').style('display', 'block');
